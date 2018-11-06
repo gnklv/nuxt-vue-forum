@@ -13,7 +13,7 @@ export default {
   },
   asyncData(context, callback) {
     setTimeout(() => {
-      callback(null, {
+      callback(new Error(), {
         loadedPosts: [
           {
             id: '1',
