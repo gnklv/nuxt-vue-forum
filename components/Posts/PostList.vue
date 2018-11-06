@@ -4,6 +4,7 @@
       v-for="n in 4"
       :key="n"
       :id="`${n}`"
+      :isAdmin="isAdmin"
       thumbnail="https://static.pexels.com/photos/270348/pexels-photo-270348.jpeg"
       title="Hello there!"
       previewText="This is my first post!"
@@ -18,6 +19,12 @@ export default {
   name: 'PostList',
   components: {
     PostPreview
+  },
+  props: {
+    isAdmin: {
+      type: Boolean,
+      default: false
+    }
   }
 }
 </script>
