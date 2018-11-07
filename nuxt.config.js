@@ -28,6 +28,7 @@ module.exports = {
   ** Global CSS
   */
   css: [
+    '~assets/styles/main.css'
   ],
 
   /*
@@ -59,5 +60,10 @@ module.exports = {
   */
   env: {
     baseUrl: process.env.BASE_URL || 'https://nuxt-blog-gnklv.firebaseio.com'
+  },
+
+  transition: {
+    name: 'fade',
+    mode: 'out-in'
   }
 };
