@@ -23,7 +23,7 @@ const createStore = () => {
     },
     actions: {
       nuxtServerInit({ commit }, context) {
-        return axios.get('https://nuxt-blog-gnklv.firebaseio.com/posts.json')
+        return axios.get(`${process.env.baseUrl}/posts.json`)
           .then(res => {
             const postsArray = [];
             for (const key in res.data) {
@@ -38,14 +38,14 @@ const createStore = () => {
       },
       addPost: ({ commit }, post) => {
         const createdPost = { ...post, updatedDate: new Date() };
-        return axios.post('https://nuxt-blog-gnklv.firebaseio.com/posts.json', createdPost)
+        return axios.post(`${process.env.baseUrl}/posts.json`, createdPost)
           .then(res => {
             commit('addPost', { ...createdPost, id: res.data.name });
           })
           .catch(e => console.log(e));
       },
       editPost: ({ commit }, editedPost) => {
-        axios.put(`https://nuxt-blog-gnklv.firebaseio.com/posts/${editedPost.id}.json`, editedPost)
+        return axios.put(`${process.env.baseUrl}/posts/${editedPost.id}.json`, editedPost)
           .then(() => {
             commit('editPost', editedPost);
           })
