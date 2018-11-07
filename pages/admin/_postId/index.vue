@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import AdminPostForm from '@/components/Admin/AdminPostForm';
 
 export default {
@@ -15,14 +14,14 @@ export default {
   components: {
     AdminPostForm
   },
-  asyncData(context) {
-    return axios.get(`${process.env.baseUrl}/posts/${context.params.postId}.json`)
-      .then(res => {
+  asyncData({ params, error, app }) {
+    return app.$axios.$get(`/posts/${params.postId}.json`)
+      .then(data => {
         return {
-          loadedPost: { ...res.data, id: context.params.postId }
+          loadedPost: { ...data, id: params.postId }
         }
       })
-      .catch(e => context.error(e))
+      .catch(e => error(e))
   },
   methods: {
     onSubmitted(editedPost) {

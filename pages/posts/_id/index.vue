@@ -15,17 +15,15 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
-  asyncData(context) {
-    return axios.get(`${process.env.baseUrl}/posts/${context.params.id}.json`)
-      .then(res => {
+  asyncData({ params, error, app }) {
+    return app.$axios.$get(`/posts/${params.id}.json`)
+      .then(data => {
         return {
-          loadedPost: res.data
+          loadedPost: data
         }
       })
-      .catch(e => context.error(e))
+      .catch(e => error(e))
   }
 }
 </script>
