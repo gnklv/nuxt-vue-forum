@@ -35,6 +35,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~plugins/core-components.js'
   ],
 
   /*
@@ -62,6 +63,9 @@ module.exports = {
     baseUrl: process.env.BASE_URL || 'https://nuxt-blog-gnklv.firebaseio.com'
   },
 
+  /*
+  ** Animations
+  */
   transition: {
     name: 'fade',
     mode: 'out-in'
