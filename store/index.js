@@ -23,6 +23,9 @@ const createStore = () => {
       },
       setToken: (state, token) => {
         state.token = token;
+      },
+      clearToken: (state) => {
+        state.token = null;
       }
     },
     actions: {
@@ -55,7 +58,7 @@ const createStore = () => {
           })
           .catch(e => console.log(e));
       },
-      authenticateUser({ commit }, { isLogin, email, password }) {
+      authenticateUser({ commit, dispatch }, { isLogin, email, password }) {
         let authUrl = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=';
 
         if (isLogin) {
@@ -69,10 +72,16 @@ const createStore = () => {
           )
           .then(result => {
             commit('setToken', result.idToken);
+            dispatch('setLogoutTimer', result.expiresIn * 1000);
           })
           .catch(e => {
             console.log(e);
           });
+      },
+      setLogoutTimer({ commit }, duration) {
+        setTimeout(() => {
+          commit('clearToken');
+        }, duration)
       }
     }
   })
