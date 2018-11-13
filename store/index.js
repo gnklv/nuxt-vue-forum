@@ -7,7 +7,8 @@ const createStore = () => {
       token: null
     },
     getters: {
-      loadedPosts: state => state.loadedPosts
+      loadedPosts: state => state.loadedPosts,
+      isAuthenticated: state => state.token != null
     },
     mutations: {
       setPosts: (state, posts) => {
@@ -39,16 +40,16 @@ const createStore = () => {
       setPosts({ commit }, posts) {
         commit('setPosts', posts);
       },
-      addPost({ commit }, post) {
+      addPost({ state, commit }, post) {
         const createdPost = { ...post, updatedDate: new Date() };
-        return this.$axios.$post(`/posts.json`, createdPost)
+        return this.$axios.$post(`/posts.json?auth=${state.token}`, createdPost)
           .then(data => {
             commit('addPost', { ...createdPost, id: data.name });
           })
           .catch(e => console.log(e));
       },
-      editPost({ commit }, editedPost) {
-        return this.$axios.$put(`/posts/${editedPost.id}.json`, editedPost)
+      editPost({ state, commit }, editedPost) {
+        return this.$axios.$put(`/posts/${editedPost.id}.json?auth=${state.token}`, editedPost)
           .then(() => {
             commit('editPost', editedPost);
           })
