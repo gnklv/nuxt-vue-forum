@@ -72,7 +72,9 @@ const createStore = () => {
           )
           .then(result => {
             commit('setToken', result.idToken);
+            localStorage.setItem('token', result.idToken);
             dispatch('setLogoutTimer', result.expiresIn * 1000);
+            localStorage.setItem('tokenExpiration', new Date().getTime() + result.expiresIn * 1000);
           })
           .catch(e => {
             console.log(e);
@@ -82,6 +84,14 @@ const createStore = () => {
         setTimeout(() => {
           commit('clearToken');
         }, duration)
+      },
+      initAuth({ commit, dispatch }) {
+        const token = localStorage.getItem('token');
+        const expirationDate = localStorage.getItem('tokenExpiration');
+
+        if (new Date().getTime() > +expirationDate || !token) return;
+        dispatch('setLogoutTimer', +expirationDate - new Date().getTime());
+        commit('setToken', token);
       }
     }
   })
