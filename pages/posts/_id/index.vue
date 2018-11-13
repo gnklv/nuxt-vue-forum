@@ -16,7 +16,12 @@
 
 <script>
 export default {
-  asyncData({ params, error, app }) {
+  asyncData({ params, error, app, payload }) {
+    if (payload) {
+      return {
+        loadedPost: payload.postData
+      }
+    }
     return app.$axios.$get(`/posts/${params.id}.json`)
       .then(data => {
         return {
