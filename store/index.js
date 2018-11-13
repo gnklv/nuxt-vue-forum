@@ -3,7 +3,8 @@ import Vuex from 'vuex';
 const createStore = () => {
   return new Vuex.Store({
     state: {
-      loadedPosts: []
+      loadedPosts: [],
+      token: null
     },
     getters: {
       loadedPosts: state => state.loadedPosts
@@ -18,6 +19,9 @@ const createStore = () => {
       editPost: (state, editedPost) => {
         const postIndex = state.loadedPosts.findIndex(post => post.id === editedPost.id);
         state.loadedPosts[postIndex] = editedPost;
+      },
+      setToken: (state, token) => {
+        state.token = token;
       }
     },
     actions: {
@@ -49,6 +53,25 @@ const createStore = () => {
             commit('editPost', editedPost);
           })
           .catch(e => console.log(e));
+      },
+      authenticateUser({ commit }, { isLogin, email, password }) {
+        let authUrl = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=';
+
+        if (isLogin) {
+          authUrl = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=';
+        }
+
+        this.$axios
+          .$post(
+            authUrl + process.env.fbAPIKey,
+            { email, password, returnSecureToken: true }
+          )
+          .then(result => {
+            commit('setToken', result.idToken);
+          })
+          .catch(e => {
+            console.log(e);
+          });
       }
     }
   })

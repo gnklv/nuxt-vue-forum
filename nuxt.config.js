@@ -66,7 +66,8 @@ module.exports = {
   ** Environment Variables
   */
   env: {
-    baseUrl: process.env.BASE_URL || 'https://nuxt-blog-gnklv.firebaseio.com'
+    baseUrl: process.env.BASE_URL || 'https://nuxt-blog-gnklv.firebaseio.com',
+    fbAPIKey: 'AIzaSyANOeNGC1XPQFKnQWdgR_-r6zoC71pEvIs'
   },
 
   /*
