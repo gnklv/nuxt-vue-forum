@@ -1,6 +1,4 @@
-export default function ({ store }) {
+export default function ({ store, req }) {
   console.log('[Middleware] Check Auth');
-  if (process.client) {
-    store.dispatch('initAuth');
-  }
+  store.dispatch('initAuth', req);
 }
