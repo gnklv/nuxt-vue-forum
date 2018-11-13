@@ -116,11 +116,13 @@ const createStore = () => {
       },
       logout({ commit }) {
         commit('clearToken');
-        localStorage.removeItem('token');
         Cookie.remove('jwt');
-
-        localStorage.removeItem('tokenExpiration');
         Cookie.remove('expirationDate');
+
+        if (process.client) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('tokenExpiration');
+        }
       }
     }
   })
